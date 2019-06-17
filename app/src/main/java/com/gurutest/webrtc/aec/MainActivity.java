@@ -1,7 +1,5 @@
 package com.gurutest.webrtc.aec;
 
-import android.content.Context;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,11 +15,14 @@ public class MainActivity extends AppCompatActivity {
         init();
     }
 
-    private void init() {
-        AudioManager audioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-        audioManager.setSpeakerphoneOn(true);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+        WebRtcAudioManager.getInstance().stop();
+    }
+
+    private void init() {
         WebRtcAudioManager.getInstance().start(this);
     }
 }
